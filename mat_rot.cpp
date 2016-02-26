@@ -5,17 +5,19 @@
 using Eigen::Matrix3d;
 using Eigen::Vector3d;
 
-#define COUNT 10000
-#define OHM (2.0*M_PI/COUNT)
+#define COUNT 1000
+#define OHM (6.0*M_PI/COUNT)
 
 int main()
 {
 	Matrix3d m;
-	Vector3d v;
+	Vector3d v, axis;
+	axis << 1.0, 1.0, 1.0;
+	axis.normalize();
 #if 1
-	m <<	0.0,	OHM,	-OHM,
-			-OHM,	0.0,	OHM,
-			OHM,	-OHM,	0.0;
+	m <<	0.0,			axis(2)*OHM,	-axis(1)*OHM,
+			-axis(2)*OHM,	0.0,			axis(0)*OHM,
+			axis(1)*OHM,	-axis(0)*OHM,	0.0;
 #else
 	m <<	0.0,	OHM,	0.0,
 			-OHM,	0.0,	0.0,
@@ -28,7 +30,7 @@ int main()
 		std::cout << v(2) << " ";
 		std::cout << std::endl;
 		v = v + m * v;
-//		v.normalize();
+		v.normalize();
 	}
 }
 
